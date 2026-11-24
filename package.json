@@ -1,0 +1,37 @@
+{
+  "name": "app_niisz69jjkik",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "engines": {
+    "node": ">=24.15.0"
+  },
+  "scripts": {
+    "dev": "npm run build:server && node scripts/dev.mjs",
+    "build": "npm run typecheck && npm run build:server && vite build",
+    "build:server": "tsc -p tsconfig.node.json",
+    "typecheck": "tsc -p tsconfig.app.json --noEmit && tsc -p tsconfig.node.json --noEmit",
+    "start": "node dist/server/main.js"
+  },
+  "dependencies": {
+    "@nestjs/common": "12.5.0",
+    "@nestjs/core": "12.5.0",
+    "@nestjs/platform-express": "12.5.0",
+    "@tanstack/react-router": "1.170.46",
+    "antd": "6.6.4",
+    "react": "19.3.1",
+    "react-dom": "19.3.1",
+    "reflect-metadata": "0.2.2",
+    "rxjs": "7.8.2"
+  },
+  "devDependencies": {
+    "@tailwindcss/vite": "4.3.3",
+    "@types/node": "24.10.0",
+    "@types/react": "19.3.0",
+    "@types/react-dom": "19.3.0",
+    "@vitejs/plugin-react": "6.3.0",
+    "tailwindcss": "4.3.3",
+    "typescript": "5.9.3",
+    "vite": "8.3.8"
+  }
+}

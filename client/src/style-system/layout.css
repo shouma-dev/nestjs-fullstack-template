@@ -1,0 +1,30 @@
+.app-shell {
+  padding: 32px var(--workos-space-section);
+}
+
+.app-shell__content {
+  max-width: 960px;
+  margin-inline: auto;
+}
+
+.app-shell__header {
+  margin-bottom: var(--workos-space-section);
+}
+
+.app-shell__title {
+  margin: 0;
+  font-size: var(--workos-title-size);
+  line-height: var(--workos-title-line);
+  font-weight: var(--workos-title-weight);
+}
+
+.app-shell__header p {
+  margin: var(--workos-space-xs) 0 0;
+  color: var(--workos-muted);
+}
+
+@media (max-width: 600px) {
+  .app-shell {
+    padding: var(--workos-space-section) var(--workos-space-lg);
+  }
+}

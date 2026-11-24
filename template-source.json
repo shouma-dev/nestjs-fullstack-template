@@ -1,0 +1,5 @@
+{
+  "baseTemplate": "fullstack-nest-react-v11",
+  "adaptation": "延续 V12 的十二张页面设计与示例交互，使用工程自带的 Ant Design 6.6.4 和 WorkOS StyleProvider 实现 React 页面。",
+  "references": "skills/miaoda-erp-design/references/catalog.md"
+}

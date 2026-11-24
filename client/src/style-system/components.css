@@ -1,0 +1,116 @@
+.workos-button.ant-btn-variant-solid {
+  --workos-button-weight: var(--workos-strong);
+}
+
+.workos-button.ant-btn-variant-solid.ant-btn-color-primary {
+  --workos-action-off-bg: var(--workos-action-solid);
+  --workos-action-off-text: var(--workos-action-solid-text);
+}
+
+.workos-button.ant-btn-variant-solid.ant-btn-color-dangerous {
+  --workos-action-off-bg: var(--workos-action-danger);
+  --workos-action-off-text: var(--workos-action-danger-text);
+}
+
+.workos-button.ant-btn-variant-solid:is(.ant-btn-color-primary, .ant-btn-color-dangerous):is(:disabled, .ant-btn-disabled) {
+  background: var(--workos-action-off-bg);
+  color: var(--workos-action-off-text);
+  border-color: transparent;
+  opacity: 0.2;
+}
+
+.workos-button.ant-btn:not(:disabled, .ant-btn-disabled, .ant-btn-loading):active {
+  box-shadow: inset 0 4px 8px var(--workos-action-shadow);
+}
+
+.workos-button.ant-btn:not(:disabled, .ant-btn-disabled):focus-visible {
+  outline: 1px solid var(--workos-action-focus);
+  outline-offset: 1px;
+  box-shadow: 0 0 4px var(--workos-action-glow);
+}
+
+.workos-data-table.ant-table-wrapper .ant-table {
+  border-radius: var(--workos-table-radius);
+}
+
+.workos-data-table.ant-table-wrapper .ant-table-thead > tr > th {
+  height: var(--workos-table-header);
+  padding-block: 0;
+  font-weight: inherit;
+}
+
+.workos-data-table.ant-table-wrapper .ant-table-tbody > tr.ant-table-row > td {
+  height: var(--workos-table-row);
+}
+
+.workos-data-table-large.ant-table-wrapper .ant-table-tbody > tr.ant-table-row > td {
+  padding-block: 16px;
+}
+
+.workos-pagination.ant-pagination {
+  column-gap: var(--workos-page-gap);
+  row-gap: var(--workos-page-gap);
+}
+
+.workos-pagination.ant-pagination :is(.ant-pagination-item, .ant-pagination-prev, .ant-pagination-next, .ant-pagination-jump-prev, .ant-pagination-jump-next) {
+  margin-inline-end: 0;
+}
+
+.workos-pagination.ant-pagination .ant-pagination-item-active {
+  border-color: var(--workos-action-border);
+  font-weight: inherit;
+}
+
+.workos-pagination.ant-pagination .ant-pagination-item:not(.ant-pagination-disabled):active,
+.workos-pagination.ant-pagination :is(.ant-pagination-prev, .ant-pagination-next):not(.ant-pagination-disabled) .ant-pagination-item-link:active {
+  background: var(--workos-action-pressed);
+  box-shadow: inset 0 4px 8px var(--workos-action-shadow);
+}
+
+.workos-pagination.ant-pagination .ant-pagination-item:focus-visible,
+.workos-pagination.ant-pagination .ant-pagination-item-link:focus-visible {
+  outline: 1px solid var(--workos-action-focus);
+  outline-offset: 0;
+  box-shadow: 0 0 4px var(--workos-action-glow);
+}
+
+.workos-select-popup.ant-select-dropdown .ant-select-item-option + .ant-select-item-option {
+  margin-block-start: var(--workos-popup-gap);
+}
+
+.workos-dropdown.ant-dropdown .ant-dropdown-menu {
+  padding: var(--workos-popup-padding);
+  border: 1px solid var(--workos-popup-border);
+}
+
+.workos-dropdown.ant-dropdown .workos-dropdown-item + .workos-dropdown-item {
+  margin-block-start: var(--workos-popup-gap);
+}
+
+.workos-dropdown.ant-dropdown .workos-dropdown-item.ant-dropdown-menu-item-active:not(.ant-dropdown-menu-item-disabled) {
+  background-color: var(--workos-popup-active);
+}
+
+.workos-dropdown.ant-dropdown .workos-dropdown-item.ant-dropdown-menu-item-selected:not(.ant-dropdown-menu-item-disabled)::after {
+  content: '';
+  flex: none;
+  align-self: center;
+  width: 5px;
+  height: 9px;
+  margin-inline: 8px 2px;
+  border: solid var(--workos-popup-check);
+  border-width: 0 1.5px 1.5px 0;
+  transform: translateY(-1px) rotate(45deg);
+}
+
+.workos-modal-actions.ant-modal-footer {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: var(--workos-modal-action-gap);
+}
+
+.workos-modal-actions.ant-modal-footer .ant-btn {
+  min-width: var(--workos-modal-action-width);
+  margin-inline-start: 0;
+}

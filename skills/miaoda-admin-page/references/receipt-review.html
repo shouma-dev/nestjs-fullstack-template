@@ -1,0 +1,189 @@
+<!doctype html>
+<html lang="zh-CN">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>来料异常复核 · 河岸采购</title>
+<style>
+  * { box-sizing: border-box }
+  :root { color-scheme: light; --ink: #252e32; --muted: #58646a; --line: #d7dce0; --blue: #184e70; --warn: #985024 }
+  body { margin: 0; color: var(--ink); background: #fff; font: 14px/1.55 system-ui,"PingFang SC",sans-serif; font-variant-numeric: tabular-nums }
+  header { height: 54px; display: flex; align-items: center; gap: 15px; padding-inline: clamp(16px,3vw,46px); border-bottom: 1px solid var(--line) }
+  header strong { font-size: 17px; font-weight: 700 }
+  header span { border-left: 1px solid var(--line); padding-left: 15px; color: var(--muted) }
+  header small { font-size: 12px; margin-left: auto; color: var(--muted) }
+  main { max-width: 1680px; margin: auto; padding: 28px clamp(16px,3vw,46px) 18px }
+  h1 { font-size: 28px; letter-spacing: -.02em; margin: 0 0 20px }
+  h2 { font-size: 23px; line-height: 1.25; margin: 8px 0 }
+  h3 { font-size: 15px; margin: 26px 0 8px }
+  p { margin: 0 }
+  button { font: inherit; cursor: pointer; color: inherit }
+  button:focus-visible, #details:focus-visible { outline: 2px solid #1674a6; outline-offset: 2px }
+  .ledger { display: grid; grid-template-columns: minmax(0,1.85fr) minmax(290px,1fr); border-block: 1px solid #aeb7bb; min-height: 508px }
+  .list { min-width: 0; padding-right: 26px }
+  .filters { display: flex; min-height: 52px; align-items: stretch; gap: 22px }
+  .filters button { background: transparent; border: 0; border-bottom: 2px solid transparent; padding: 0 1px; color: var(--muted) }
+  .filters button[aria-pressed="true"] { color: var(--blue); border-bottom-color: var(--blue); font-weight: 650 }
+  table { width: 100%; border-collapse: collapse; text-align: left }
+  th { font-size: 12px; color: var(--muted); font-weight: 500; background: #f1f3f4 }
+  th, td { padding: 11px 10px; border-bottom: 1px solid var(--line) }
+  .queue tbody tr:hover { background: #f5f7f8 }
+  .queue tr.selected { background: #edf4f8 }
+  .queue td:first-child { width: 34% }
+  .object { border: 0; background: transparent; padding: 0; text-align: left }
+  .object span { display: block; font-size: 15px; font-weight: 620 }
+  .object:hover span { text-decoration: underline; text-underline-offset: 3px }
+  .object small, .code { color: var(--muted); font: 12px/1.5 ui-monospace,monospace }
+  .issue { font-weight: 550 }
+  .pending { color: var(--warn) }
+  .queue td:last-child, .queue th:last-child { text-align: right; white-space: nowrap }
+  #details { background: #f6f7f7; padding: 23px clamp(16px,2vw,32px) 28px; border-left: 1px solid var(--line); min-width: 0 }
+  .folio { display: flex; justify-content: space-between; align-items: baseline; color: var(--muted); font-size: 12px }
+  .summary { color: var(--muted) }
+  .facts th,.facts td { background: transparent; padding: 7px 0; font-size: 14px }
+  .facts th { color: var(--muted) } .facts td { text-align: right }
+  .result th,.result td { font-weight: 650 }
+  .result td { color: var(--warn) }
+  .note { line-height: 1.7 }
+  .action { color: white; background: var(--blue); border: 0; border-radius: 4px; margin-top: 20px; padding: 8px 14px }
+  .action:hover { background: #123c58 }
+  footer { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; color: var(--muted); padding-top: 12px; font-size: 12px }
+  #feedback { color: var(--blue) }
+  #back { display: none }
+  [hidden] { display: none !important }
+  @media (max-width: 980px) and (min-width: 761px) {
+    .ledger { grid-template-columns: minmax(0,1.4fr) minmax(260px,1fr) }
+    .list { padding-right: 12px }
+    .supplier { display: none }
+  }
+  @media (max-width: 760px) {
+    main { padding-top: 20px }
+    h1 { font-size: 24px; margin-bottom: 12px }
+    .ledger { display: block; min-height: 0 }
+    .list { padding-right: 0 }
+    .supplier { display: none }
+    th,td { padding: 11px 5px }
+    .queue td:first-child { width: auto }
+    #details { display: none; border: 0; background: white; padding: 12px 2px 22px }
+    .detail-open #details { display: block }
+    .detail-open .list { display: none }
+    #back { display: inline-block; border: 0; background: transparent; color: var(--blue); padding: 7px 0; margin-bottom: 10px; text-decoration: underline; text-underline-offset: 3px }
+    .folio { border-top: 1px solid var(--line); padding-top: 13px }
+    footer { flex-wrap: wrap }
+  }
+</style>
+<header><strong>河岸采购</strong><span>收货质检</span><small>演示账套</small></header>
+<main>
+  <h1>来料异常复核</h1>
+  <div class="ledger">
+    <section class="list" aria-label="异常批次">
+      <div class="filters" role="group" aria-label="筛选状态"></div>
+      <table class="queue" aria-label="异常批次清单">
+        <thead><tr><th scope="col">品项 / 收货单</th><th scope="col" class="supplier">供应商</th><th scope="col">异常</th><th scope="col">点收时间</th></tr></thead>
+        <tbody id="queue"></tbody>
+      </table>
+    </section>
+    <section id="details" tabindex="-1" aria-label="核对所选批次">
+      <button id="back" type="button">返回批次清单</button><div id="receipt"></div>
+    </section>
+  </div>
+  <footer><span>示例单据，复核记录保存在当前页面。</span><span id="feedback" role="status"></span></footer>
+</main>
+<template id="batch">
+  <div class="folio"><span class="code" data-field="id"></span><span class="state"></span></div>
+  <h2 data-field="item"></h2><p class="summary" data-field="supplier"></p>
+  <h3>单据核对</h3><table class="facts" aria-label="单据核对"><tbody>
+    <tr><th scope="row">采购单应收</th><td data-field="plan"></td></tr>
+    <tr><th scope="row">仓库点收</th><td data-field="received"></td></tr>
+    <tr class="result"><th scope="row">异常</th><td data-field="issue"></td></tr>
+  </tbody></table>
+  <h3>交接记录</h3><p class="note" data-field="note"></p>
+</template>
+<script>
+  // 独立演示账套。数量、时间与交接记录均为示例数据。
+  const rows = [
+    {id:'RC-0418',time:'11:42',item:'食品级封口袋',supplier:'北岸包装',plan:'48 箱',received:'46 箱',issue:'少收 2 箱',note:'司机签收联写有“余 2 箱随次车”。仓库首车点收 46 箱，复核时请一并核对次车交接单。',done:false},
+    {id:'RC-0416',time:'11:15',item:'冷藏牛乳',supplier:'苇原牧场',plan:'32 箱',received:'32 箱',issue:'缺测温时间',note:'点收数量相符。随车温度单只有温度读数，交接时刻一栏空白。',done:false},
+    {id:'RC-0415',time:'10:56',item:'无盐黄油',supplier:'青堤乳业',plan:'12 箱',received:'12 箱',issue:'外箱破损',note:'第 7 箱外侧有压痕，点收时已单独放在复查区。核对内包装后补记结果。',done:false},
+    {id:'RC-0413',time:'10:24',item:'瓦楞纸托',supplier:'北岸包装',plan:'180 个',received:'186 个',issue:'多收 6 个',note:'送货单备注附送备品，采购单未列备品数量。请核对是否单独入账。',done:false},
+    {id:'RC-0412',time:'09:48',item:'赤砂糖',supplier:'泽田糖业',plan:'20 袋',received:'20 袋',issue:'缺批次标签',note:'其中一袋外包装未贴批次标签，点收人员已拍下托盘上的标签。',done:false},
+    {id:'RC-0410',time:'09:20',item:'密封罐盖',supplier:'南堤制罐',plan:'500 枚',received:'490 枚',issue:'少收 10 枚',note:'按每包 10 枚点收共 49 包。请向承运方核对整箱交接记录。',done:false},
+    {id:'RC-0409',time:'08:55',item:'烘焙高筋粉',supplier:'谷地制粉',plan:'60 袋',received:'60 袋',issue:'批号不符',note:'外袋与附件批号不同。复查时已补充原始批号照片。',done:true},
+    {id:'RC-0406',time:'08:32',item:'卷筒标签纸',supplier:'北岸包装',plan:'8 卷',received:'8 卷',issue:'缺送货联',note:'供应商已补传签字联，仓库留存电子副本。',done:true}
+  ];
+  const ledger = document.querySelector('.ledger'), filters = document.querySelector('.filters');
+  const queue = document.querySelector('#queue'), receipt = document.querySelector('#receipt'), details = document.querySelector('#details');
+  let filter = 'pending', selectedId = rows[0].id;
+  function button(label, onClick) {
+    const node = document.createElement('button');
+    node.type = 'button';
+    node.textContent = label;
+    node.addEventListener('click', onClick);
+    return node;
+  }
+  function showList() {
+    ledger.classList.remove('detail-open');
+    const target = queue.querySelector('[aria-current="true"]') || filters.querySelector('[aria-pressed="true"]');
+    target.focus();
+  }
+  document.querySelector('#back').addEventListener('click', showList);
+  function render() {
+    const filtered = rows.filter(row => filter === 'all' || row.done === (filter === 'done'));
+    const active = filtered.find(row => row.id === selectedId) || filtered[0];
+    selectedId = active?.id;
+    filters.replaceChildren();
+    for (const [key,label,count] of [['pending','待复核',rows.filter(r=>!r.done).length],['done','已复核',rows.filter(r=>r.done).length],['all','全部',rows.length]]) {
+      const tab = button(label+' '+count, () => {
+        filter = key;
+        render();
+        filters.querySelector('[aria-pressed="true"]').focus();
+      });
+      tab.setAttribute('aria-pressed',String(key === filter));
+      filters.append(tab);
+    }
+    queue.replaceChildren();
+    for (const row of filtered) {
+      const tr = queue.insertRow();
+      const choose = button('', () => {
+        selectedId = row.id;
+        render();
+        ledger.classList.add('detail-open');
+        details.focus();
+      });
+      choose.className = 'object';
+      const name = document.createElement('span'), code = document.createElement('small');
+      name.textContent = row.item;
+      code.textContent = row.id;
+      choose.append(name,code);
+      choose.setAttribute('aria-current',String(row.id === selectedId));
+      tr.classList.toggle('selected', row.id === selectedId);
+      tr.insertCell().append(choose);
+      for (const [value,cls] of [[row.supplier,'supplier'],[row.issue,'issue'],[row.time,'time']]) {
+        const td = tr.insertCell();
+        td.className = cls;
+        td.textContent = value;
+      }
+    }
+    if (!active) {
+      queue.insertRow().insertCell().colSpan = 4;
+      queue.rows[0].cells[0].textContent = '当前没有对应状态的批次。';
+      receipt.textContent = '可切换状态查看其他批次。';
+      return;
+    }
+    const batch = document.querySelector('#batch').content.cloneNode(true);
+    for (const field of batch.querySelectorAll('[data-field]')) field.textContent = active[field.dataset.field];
+    const state = batch.querySelector('.state');
+    state.textContent = active.done ? '已复核' : '待复核';
+    state.classList.toggle('pending', !active.done);
+    receipt.replaceChildren(batch);
+    const action = button(active.done ? '撤销复核' : '标记已复核', () => {
+      active.done = !active.done;
+      render();
+      showList();
+      document.querySelector('#feedback').textContent = active.id + (active.done ? ' 已复核。' : ' 已回到待复核队列。');
+    });
+    action.className = 'action';
+    receipt.append(action);
+  }
+  render();
+</script>
+</html>

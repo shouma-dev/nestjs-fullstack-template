@@ -1,0 +1,27 @@
+[data-workos-keyboard] .workos-field {
+  --workos-field-active-border: var(--workos-field-keyboard-border);
+  --workos-field-active-shadow: var(--workos-field-keyboard-shadow);
+  --workos-field-active-bg: transparent;
+  --workos-field-error-shadow: var(--workos-field-keyboard-error);
+  --workos-field-warning-shadow: var(--workos-field-keyboard-warning);
+}
+
+.workos-field .ant-input-prefix {
+  margin-inline-end: var(--workos-field-icon-gap);
+}
+
+.workos-search-icon {
+  display: block;
+  width: var(--workos-field-icon-size);
+  height: var(--workos-field-icon-size);
+}
+
+/* Select 单独拼接实线外圈。这里保留原生边框令牌，并替换这一层阴影。 */
+.workos-field.ant-select-outlined:not(.ant-select-disabled, .ant-select-status-error, .ant-select-status-warning):hover {
+  background-color: var(--workos-field-hover-bg);
+}
+
+.workos-field.ant-select-outlined.ant-select-focused:not(.ant-select-disabled, .ant-select-status-error, .ant-select-status-warning) {
+  background-color: var(--workos-field-active-bg, var(--workos-field-edit-bg));
+  box-shadow: var(--workos-field-active-shadow, var(--workos-field-edit-shadow));
+}

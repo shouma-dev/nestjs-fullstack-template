@@ -1,0 +1,119 @@
+<!doctype html>
+<html lang="zh-CN">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>鸢尾套印开放日 · 折页印社</title>
+<link rel="stylesheet" href="iris-plates.css">
+<style>
+  * { box-sizing: border-box }
+  :root { color-scheme: light; --ink: #272a26; --paper: #f8f6ee; --rule: #c7c6b7; --red: #963c29; --blue: #213e62 }
+  body { max-width: 1440px; margin: auto; padding: 0 clamp(20px,5vw,72px); color: var(--ink); background: var(--paper); font: 16px/1.65 system-ui,"PingFang SC",sans-serif }
+  header { min-height: 72px; display: flex; align-items: center; justify-content: space-between; gap: 16px; border-bottom: 1px solid var(--ink) }
+  header strong { font: 700 24px/1.3 "Songti SC","STSong",serif; letter-spacing: .12em }
+  header a, figcaption { font-size: 13px }
+  a { color: inherit; text-underline-offset: .23em }
+  h1,h2,p,figure,fieldset { margin: 0 }
+  button,input { font: inherit }
+  button { cursor: pointer }
+  :focus-visible { outline: 2px solid var(--blue); outline-offset: 4px }
+  .spread { display: grid; grid-template: "work title" auto "work times" 1fr / 1.68fr 1fr; column-gap: clamp(32px,5vw,76px); padding-block: clamp(28px,4.3vw,64px) 30px; align-items: start }
+  .title { grid-area: title }
+  h1 { font: 650 clamp(44px,4.9vw,77px)/1.06 "Songti SC","STSong",serif; letter-spacing: -.035em; margin: 0 0 18px }
+  h1 span { display: block }
+  .title p { max-width: 25em }
+  figure { grid-area: work; min-width: 0 }
+  .proof { position: relative; isolation: isolate; background: #fff; aspect-ratio: 1899/1294 }
+  .plate { position: absolute; inset: 0; background-size: 100% 100%; mix-blend-mode: multiply }
+  [data-mode="red"] .indigo, [data-mode="blue"] .vermilion { visibility: hidden }
+  .proof-controls { display: flex; align-items: center; gap: 3px 12px; flex-wrap: wrap; padding: 11px 0; border-bottom: 1px solid var(--rule) }
+  .proof-controls span { margin-right: auto; font-size: 14px }
+  .proof-controls button { padding: 6px 4px; border: 0; background: transparent; color: var(--ink); font-size: 14px }
+  .proof-controls button[aria-pressed="true"] { font-weight: 700; text-decoration: underline; text-underline-offset: 5px }
+  .proof-controls button:hover { color: var(--red) }
+  .swatch { display: inline-block; width: .65em; height: .65em; margin-right: .35em; background: var(--red) }
+  .swatch.blue { background: var(--blue) }
+  figcaption { margin: 9px 0 0; color: #57594f }
+  #sessions { grid-area: times; margin-top: 25px; border-top: 2px solid var(--ink); padding-top: 12px; scroll-margin: 18px }
+  .date { display: flex; align-items: baseline; justify-content: space-between; gap: 8px; margin-bottom: 8px }
+  .date h2 { font: 600 clamp(24px,2vw,30px)/1.3 "Songti SC","STSong",serif }
+  .date span, legend, output { font-size: 14px }
+  fieldset { border: 0; padding: 0 }
+  legend { padding: 0; color: #56584f }
+  .slots { display: flex; gap: 22px; align-items: center; margin-block: 6px 12px }
+  .slots label { display: inline-flex; align-items: center; gap: 6px; cursor: pointer; font-variant-numeric: tabular-nums }
+  input { accent-color: var(--ink); margin: 0 }
+  .save { background: var(--ink); border: 1px solid var(--ink); border-radius: 2px; padding: 9px 18px; color: white }
+  .save:hover { background: var(--blue) }
+  output { display: block; margin-top: 6px }
+  .process { border-top: 1px solid var(--ink); padding-block: 20px 38px; display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 24px }
+  .process h2 { font: 600 23px/1.4 "Songti SC","STSong",serif }
+  .process h3 { margin: 0 0 4px; font-size: 16px }
+  .process p { color: #50544a; font-size: 15px }
+  @media(max-width: 800px) {
+    .spread { grid-template: "title" "work" "times" / minmax(0,1fr); gap: 19px }
+    h1 { margin-bottom: 8px; font-size: clamp(34px,7vw,52px) }
+    h1 span { display: inline }
+    .title p { max-width: none }
+    #sessions { margin-top: 0 }
+    .process { grid-template-columns: 1fr; gap: 11px }
+    header { min-height: 57px }
+  }
+  @media print { header a, .proof-controls, form { display: none } }
+</style>
+<header><strong>折页印社</strong><a href="#sessions">查看参观场次</a></header>
+<main>
+  <section class="spread" aria-labelledby="title">
+    <div class="title"><h1 id="title">鸢尾<span>套印开放日</span></h1>
+      <p>花瓣走朱红版，叶脉走靛蓝版。在印台上对准两版，印一张自己的鸢尾带走。</p></div>
+    <figure>
+      <div class="proof" role="img" aria-label="鸢尾的朱红与靛蓝数码合印色样" data-mode="both"><div class="plate vermilion"></div><div class="plate indigo"></div></div>
+      <div class="proof-controls" role="group" aria-label="试样分色"><span>查看色版</span>
+        <button type="button" aria-pressed="true" data-mode="both">合印</button>
+        <button type="button" aria-pressed="false" data-mode="red"><i class="swatch" aria-hidden="true"></i>朱红版</button>
+        <button type="button" aria-pressed="false" data-mode="blue"><i class="swatch blue" aria-hidden="true"></i>靛蓝版</button></div>
+      <figcaption>分色练习取自葛饰北斋的鸢尾版画，按本课两种墨色重新配色。<a href="https://www.metmuseum.org/art/collection/search/37192">大都会艺术博物馆藏品 JP747</a></figcaption>
+    </figure>
+    <section id="sessions" aria-label="开放场次">
+      <div class="date"><h2><time datetime="2027-03-20">3 月 20 日</time></h2><span>2027 · 印社一楼</span></div>
+      <form><fieldset><legend>选场次，每场一小时</legend><div class="slots">
+        <label><input type="radio" name="slot" value="02" checked>10:00</label>
+        <label><input type="radio" name="slot" value="06">14:00</label></div></fieldset>
+        <button type="submit" class="save">下载日历提醒</button><output aria-live="polite"></output>
+      </form>
+    </section>
+  </section>
+  <section class="process"><h2>当天怎么印</h2>
+    <div><h3>对版</h3><p>先试印朱红版，再用纸边的套准记号对齐第二块色版。</p></div>
+    <div><h3>揭纸</h3><p>压上靛蓝，掀开纸角看花瓣边缘。把印好的样张放到晾架上。</p></div>
+  </section>
+</main>
+<script>
+  const proof = document.querySelector('.proof');
+  const controls = document.querySelectorAll('.proof-controls button');
+  for (const button of controls) {
+    button.addEventListener('click', () => {
+      proof.dataset.mode = button.dataset.mode;
+      proof.setAttribute('aria-label', '鸢尾数码分色练习 · ' + button.textContent);
+      for (const option of controls) option.setAttribute('aria-pressed', String(option === button));
+    });
+  }
+</script>
+<script>
+  document.querySelector('form').addEventListener('submit', event => {
+    event.preventDefault();
+    const hour = new FormData(event.currentTarget).get('slot');
+    const endHour = String(Number(hour) + 1).padStart(2, '0');
+    const calendar = ['BEGIN:VCALENDAR', 'VERSION:2.0', 'PRODID:-//Fold Studio//Open Day//ZH', 'BEGIN:VEVENT',
+      'UID:print-open-day-20270320-' + hour + '@example.invalid', 'DTSTAMP:20261119T000000Z',
+      'DTSTART:20270320T' + hour + '0000Z', 'DTEND:20270320T' + endHour + '0000Z',
+      'SUMMARY:折页印社 · 双色套印开放日', 'LOCATION:印社一楼', 'END:VEVENT', 'END:VCALENDAR', ''].join('\r\n');
+    const url = URL.createObjectURL(new Blob([calendar], {type: 'text/calendar;charset=utf-8'}));
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = '双色套印开放日.ics';
+    link.click();
+    setTimeout(() => URL.revokeObjectURL(url), 1000);
+    document.querySelector('output').textContent = '已生成 ' + (Number(hour) + 8) + ':00 场次的日历文件。';
+  });
+</script>
+</html>
